@@ -12,12 +12,8 @@ import numpy as np
 from os import listdir
 from os.path import isfile, join
 
-# def path_pd(path1):
-#     save_path = path1
-#     return save_path 
-
- #   save_path = r'/Users/rebecacabral/Documents/CDTN/TENSORES_DE_REYNOLDS'
 def tensores(save_path):  
+#lendo arquivos e organizando em listas
     onlyfiles = [f for f in listdir(save_path) if isfile(join(save_path, f))]
     
     linha = []
@@ -29,7 +25,8 @@ def tensores(save_path):
             for linha in spamreader:
                 aux1=str(linha[0]).split('\t')
                 lista.append(aux1)
-    
+
+#contas pra definir os tensores   
     u=[]
     v=[]
     Vx=[]
@@ -69,6 +66,8 @@ def tensores(save_path):
     VxVxrms.append(uu.mean()**0.5)
     VyVyrms.append(vv.mean()**0.5)
     VxVyrms.append(uvmod.mean()**0.5)
+    
+#organizando os dados em um dataframe
         
     das = {'u':Vx,'v':Vy,'uu':VxVx, 'vv':VyVy,'uv':VxVy,'uu_rms':VxVxrms, 'vv_rms':VyVyrms,'uv_rms':VxVyrms}
     resultado = pd.DataFrame(data=das)
