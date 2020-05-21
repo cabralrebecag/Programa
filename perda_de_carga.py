@@ -24,20 +24,26 @@ import statistics
 
 def perda_carga(save_path):
 #codigo pra ler os arquivos e organiza-los em listas
-    onlyfiles = [f for f in listdir(save_path) if isfile(join(save_path, f))]    
+    save_path = ('/Users/rebecacabral/Documents/CDTN/Programa/PERDA_DE_CARGA')
+    onlyfiles = [f for f in listdir(save_path) if isfile(join(save_path, f))]
+    files = []
+    for i in range(len(onlyfiles)):
+        if onlyfiles[i][-1] != 'v':
+            files.append(onlyfiles[i])
     lista=[]
     p=[]
     re=[]
     ro=[]
-    vis=[]  
-    for aux in range (len(onlyfiles)):   
-        with open(save_path + "/" + onlyfiles[aux], newline='') as csvfile:      
+    vis=[] 
+    aux = [] 
+    for aux in range (len(files)):   
+        with open(save_path + "/" + files[aux], newline='') as csvfile:      
             spamreader = csv.reader(csvfile) 
             for linha in spamreader:
                 aux1=str(linha[0]).split()
                 lista.append(aux1)               
-            for i in lista:
-                p.append(i[23])       
+    for i in range(len(lista)):
+        p.append(lista[i][23])       
     p=np.array(p,dtype=float)
     
 #contas média da perda de carga

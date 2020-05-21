@@ -50,16 +50,29 @@ LAMB1=532.0
 # df0 = pd.read_fwf('HTP07.29.0')
 # df0.to_csv('HTP07.29.0.csv')
 
-
 def w(save_path):
 
 #lendo os arquivos e organizando em um dataframe
-    all_files = glob.glob(save_path + '/HTP07.2*.csv')
+    onlyfiles = [f for f in listdir(save_path) if isfile(join(save_path, f))]
+    aux= []
+    for aux in range(len(onlyfiles)):
+        for files in onlyfiles:
+            df = pd.read_fwf(save_path + '/' + onlyfiles[aux])
+            df.to_csv(save_path + '/' + onlyfiles[aux] + '.csv')
+        
+        
+    all_files= [f for f in listdir(save_path) if isfile(join(save_path, f))]
+    files = []
+    for i in range(len(all_files)):
+        if all_files[i][-1] == 'v':
+            files.append(all_files[i])
+        
     li = []
-    for filename in all_files:
-        df = pd.read_csv(filename, index_col=None, header=0)
+    for filename in files:
+        df = pd.read_csv(save_path + "/" + filename, index_col=None, header=0)
         li.append(df)
         frame = pd.concat(li, axis=1, ignore_index=True)
+    
         
 #média da temperatura
     MediaT=frame.iloc[:,[8,34,60,86,112,138,164]]
@@ -89,12 +102,23 @@ def w(save_path):
 
 def incert_ext_w(path):
 #lendo arquivos e organizando em um dataframe
-    all_files = glob.glob(path + '/HTP07.2*.csv')
+    all_files= [f for f in listdir(path) if isfile(join(path, f))]
+    files = []
+    for i in range(len(all_files)):
+        if all_files[i][-1] == 'v':
+            files.append(all_files[i])
+        
     li = []
-    for filename in all_files:
-        df = pd.read_csv(filename, index_col=None, header=0)
+    for filename in files:
+        df = pd.read_csv(path + "/" + filename, index_col=None, header=0)
         li.append(df)
         frame = pd.concat(li, axis=1, ignore_index=True)
+    # all_files = glob.glob(path + '/HTP07.2*.csv')
+    # li = []
+    # for filename in all_files:
+    #     df = pd.read_csv(filename, index_col=None, header=0)
+    #     li.append(df)
+    #     frame = pd.concat(li, axis=1, ignore_index=True)
 
 #média da temperatura
     MediaT=frame.iloc[:,[8,34,60,86,112,138,164]]
@@ -126,12 +150,13 @@ def incert_ext_w(path):
 
 #calculo da incerteza da velocidade W
     w=np.divide(np.multiply(VetorRE,Vetorvisc), np.multiply(mediaROPO,Dh))
+    W = w.mean()
     stdW=((w.std(axis=0))/np.sqrt(2))
     stdDERI=((((Mvisc*stdRE)/(MmediaROPO*Dh))**2)+(((MmediaRE*stdVisc)/(MmediaROPO*Dh))**2)+(((MmediaRE*Mvisc*stdROPO)/(Dh*(MmediaROPO)**2))**2)+(((MmediaRE*Mvisc*Incerteza_Dh)/(Dh*(MmediaROPO)**2))**2))
     stdDERI=stdDERI.mean()
     stdCOMB=np.sqrt((0**2)+(stdDERI**2))
     stdEXP=2*np.sqrt((stdW**2)+(stdDERI**2))
-    resultad = pd.DataFrame([stdCOMB,stdEXP], index = ['Incerteza Combinada W', 'Incerteza Expandida W'])
+    resultad = pd.DataFrame([W,stdCOMB,stdEXP], index = ['W','Incerteza Combinada W', 'Incerteza Expandida W'])
     return (resultad)
     
     

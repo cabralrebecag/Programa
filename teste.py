@@ -17,19 +17,18 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-path1 = ('/Users/rebecacabral/Documents/CDTN/PROGRAMA/W_COMBINADA')
 path2 = ('/Users/rebecacabral/Documents/CDTN/PROGRAMA/INCERTEZA_EXT')
 path3 = ('/Users/rebecacabral/Documents/CDTN/PROGRAMA/PERDA_DE_CARGA')
 path4 = ('/Users/rebecacabral/Documents/CDTN/PROGRAMA/TENSORES_DE_REYNOLDS')
 
-b = w(path2)
-print (b)
+# b = w(path3)
+# print (b)
 
-d = incert_ext_w(path2)
-print (d)
-
-a = path_lda(path2, path2)
+a = path_lda(path3, path2)
 print (a)
+
+d = incert_ext_w(path3)
+print (d)
 
 c = perda_carga(path3)
 print (c)
@@ -89,7 +88,7 @@ plt.text(1.0, -0.7, r'$x/p$', ha='center', va='center', rotation='horizontal')
 
 ax1.annotate("$Aletada$", xy=(1,0.6), xycoords="data", va="center", ha="center", bbox=dict(boxstyle="round", fc="w"), size=20)
     
-plt.savefig('/Users/rebecacabral/Documents/CDTN/PROGRAMA/INCERTEZA_EXT/Vetores15mm.png', format='png', dpi=800)
+plt.savefig('/Users/rebecacabral/Documents/CDTN/Programa/Vetores15mm.png', format='png', dpi=800)
 
 plt.show()
 
@@ -97,25 +96,25 @@ plt.show()
 
 
 fig, (ax1,ax2)=plt.subplots(1,2, figsize=(12,7))
-ax1.plot(f[0], np.divide(f[1],b), 'ro', label = 'Teste 1')
-ax1.plot(f[0], np.divide(f[2],b), 'bo', label = 'Teste 2')
-ax1.plot(f[0], np.divide(f[3],b), 'go', label = 'Teste 3')
-ax1.plot(f[0], np.divide(f[4],b), 'mo', label = 'Teste 4')
-ax1.plot(f[0], np.divide(f[5],b), 'yo', label = 'Teste 5')
+ax1.plot(f[0], np.divide(f[1],d[0][0]), 'ro', label = 'Teste 1')
+ax1.plot(f[0], np.divide(f[2],d[0][0]), 'bo', label = 'Teste 2')
+ax1.plot(f[0], np.divide(f[3],d[0][0]), 'go', label = 'Teste 3')
+ax1.plot(f[0], np.divide(f[4],d[0][0]), 'mo', label = 'Teste 4')
+ax1.plot(f[0], np.divide(f[5],d[0][0]), 'yo', label = 'Teste 5')
 ax1.legend()
 ax1.set_ylabel('$u/w$')
 ax1.set_ylim(-0.1, 0.2)
 ax1.set_xlabel('$x/passo$')
 ax1.set_title('Perfil da velocidade $u$ no subcanal X' )
-ax2.plot(f[0], np.divide(f[6],b), 'ro', label = 'Teste 1')
-ax2.plot(f[0], np.divide(f[7],b), 'bo', label = 'Teste 2')
-ax2.plot(f[0], np.divide(f[8],b), 'go', label = 'Teste 3')
-ax2.plot(f[0], np.divide(f[9],b), 'mo', label = 'Teste 4')
-ax2.plot(f[0], np.divide(f[10],b), 'yo', label = 'Teste 5')
+ax2.plot(f[0], np.divide(f[6],d[0][0]), 'ro', label = 'Teste 1')
+ax2.plot(f[0], np.divide(f[7],d[0][0]), 'bo', label = 'Teste 2')
+ax2.plot(f[0], np.divide(f[8],d[0][0]), 'go', label = 'Teste 3')
+ax2.plot(f[0], np.divide(f[9],d[0][0]), 'mo', label = 'Teste 4')
+ax2.plot(f[0], np.divide(f[10],d[0][0]), 'yo', label = 'Teste 5')
 ax2.legend()
 ax2.set_ylabel('$v/w$')
 ax2.set_ylim(-0.1, 0.2)
 ax2.set_xlabel('$x/passo$')
 ax2.set_title('Perfil da velocidade $v$ no subcanal X' )
-plt.savefig('/Users/rebecacabral/Documents/CDTN/PROGRAMA/INCERTEZA_EXT/Perfil_de_velocidade_U_e_V.png', format='png')
+plt.savefig('/Users/rebecacabral/Documents/CDTN/Programa/Perfil_de_velocidade_U_e_V.png', format='png')
 plt.show() 

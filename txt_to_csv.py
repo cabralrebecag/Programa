@@ -8,6 +8,8 @@ Created on Mon Mar 23 08:03:37 2020
 
 import pandas as pd
 import numpy as np
+from os import listdir
+from os.path import isfile, join
 
 # df = pd.read_fwf('15mm_campo_topo_t01.txt')
 # df.to_csv('15mm_campo_topo_t01.csv')
@@ -24,18 +26,30 @@ import glob
 from w_combinada import w
 
 
-def path_lda(path2,path):
+def path_lda(path3,path):
 #lendo os asquivos e organizando os dados importantes em um dataframe (frame)
-    W = w(path2)
-    all_files = glob.glob(path + '/15mm_campo_topo_t0*.csv')
+    W = w(path3)
+    
+    onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
+    aux= []
+    for aux in range(len(onlyfiles)):
+        for files in onlyfiles:
+            df = pd.read_fwf(path + '/' + onlyfiles[aux])
+            df.to_csv(path + '/' + onlyfiles[aux] + '.csv')
+                
+    all_files= [f for f in listdir(path) if isfile(join(path, f))]
+    files = []
+    for i in range(len(all_files)):
+        if all_files[i][-1] == 'v':
+            files.append(all_files[i])
+           
     li = []
-    for filename in all_files:
-        df = pd.read_csv(filename, skiprows=6, index_col=None, header=0, sep='\t')
+    for filename in files:
+        df = pd.read_csv(path + "/" + filename, skiprows=6, index_col=None, header=0, delim_whitespace=True)
         li.append(df)
-        frame = pd.concat(li, axis=1, ignore_index=True)
-
-
-    frame=frame.iloc[:,[0,1,2,8,9,25,26,42,43,59,60,76,77]]
+        fr = pd.concat(li, axis=1, ignore_index=True)
+    
+    frame=fr.iloc[:,[0,1,2,8,9,25,26,42,43,59,60,76,77]] 
     
 #filtrando os valores de velocidade
     R1=frame.filter([8,25,42,59,76], axis=1)
@@ -114,5 +128,5 @@ def path_lda(path2,path):
     Result = ([frame.iloc[:,[1]], frame.iloc[:,[2]], Mean1, Mean2, Incerteza_Extendida1, Incerteza_Extendida2, Inc_Ext_Norm1, Inc_Ext_Norm2, du, dv, dw, incerteza_v ])
     Result_con= pd.concat(Result, axis=1, ignore_index=True)
     result = pd.DataFrame(Result_con.values, columns = ['X[mm]','Y[mm]','MédiaU','MédiaV','IncertezaExtendidaU','IncertezaExtendidaV', 'IncertezaExpandidaNormalizadaU', 'IncertezaExpandidaNormalizadaV', 'ComponenteDU', 'ComponenteDV', 'ComponenteDW', 'IncertezaVetorV'] )
-    result.to_csv("/Users/rebecacabral/Documents/CDTN/PROGRAMA/INCERTEZA_EXT/Final")
+    result.to_csv("/Users/rebecacabral/Documents/CDTN/Programa/Final")
     return(("Secondary Flow       " + sf), result)

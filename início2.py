@@ -10,11 +10,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
 from PyQt5 import uic
 import sys
-from W_COMBINADA.w_combinada import w
-from W_COMBINADA.w_combinada import incert_ext_w
-from INCERTEZA_EXT.txt_to_csv import path_lda
-from INCERTEZA_EXT.gráficos import perfil_velocidade
-from PERDA_DE_CARGA.perda_de_carga import perda_carga
+from w_combinada import w
+from w_combinada import incert_ext_w
+from txt_to_csv import path_lda
+from gráficos import perfil_velocidade
+from perda_de_carga import perda_carga
 from tensores_de_reynolds import tensores
 # from TENSORES_DE_REYNOLDS import tensores_de_reynolds
 
@@ -53,14 +53,14 @@ class mywindow(QtWidgets.QMainWindow):
                 
     def ok_botao(self):
         
-        b = w(self.string_path3)
-        print (b)
+        # b = w(self.string_path3)
+        # print (b)
+        
+        a = path_lda(self.string_path2, self.string_path2)
+        print (a)
 
         d = incert_ext_w(self.string_path3)
         print (d)
-
-        a = path_lda(self.string_path2, self.string_path2)
-        print (a)
 
         c = perda_carga(self.string_path3)
         print (c)
